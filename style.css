@@ -1,0 +1,44 @@
+.input {
+  /* background-color: black; */
+  border-color: solid black;
+  width: 300px;
+  height: 50px;
+  position: fixed;
+  bottom: 400px;
+  right: 70px;
+}
+
+.input-box {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+}
+
+.hint {
+  position: fixed;
+  bottom: 320px;
+  right: 400px;
+}
+
+.keyboard {
+  background-color: black;
+  width: 500px;
+  height: 200px;
+  border-radius: 20px;
+  padding-top: 50px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.keyboard-row {
+  text-align: center;
+}
+
+.key {
+  background-color: grey;
+  margin: 2px;
+  height: 40px;
+  width: 40px;
+  border-radius: 10px;
+}
