@@ -68,7 +68,10 @@ const wordsList = [
     word: "Parcel",
     hint: "A package or bundle of items wrapped and sent by mail",
   },
-  { word: "Hurdle", hint: "An obstacle or difficulty that must be overcome" },
+  {
+    word: "Hurdle",
+    hint: "An obstacle or difficulty that must be overcome",
+  },
   {
     word: "Feline",
     hint: "Relating to or affecting cats or other members of the cat family",
@@ -81,10 +84,48 @@ const wordsList = [
 
 let inputs = document.querySelectorAll("input");
 const keyboard = document.querySelectorAll(".key");
-const hangmanImages = document.querySelectorAll("img");
-const maxLives = document.querySelector(".LivesLeft");
+let hangmanImages = document.querySelector(".hangmanImg");
+const maxLives = document.querySelector(".Guesses");
 
-console.log(maxLives);
-console.log(inputs);
-console.log(keyboard);
-console.log(hangmanImages);
+const totalLives = 6;
+let livesUsed = 0;
+// let inputIndex = 0;
+let randomWordObject = wordsList[Math.floor(Math.random() * wordsList.length)];
+let selectedWord = randomWordObject.word.toUpperCase();
+let hint = document.querySelector(".hint");
+hint.innerHTML = `HINT: ${randomWordObject.hint}`;
+
+console.log(randomWordObject);
+console.log(selectedWord);
+
+// function keyboardInput(evt) {
+//   if (inputIndex < inputs.length) {
+//     inputs[inputIndex].value = evt.target.textContent;
+//     inputIndex++;
+//   }
+// }
+
+document
+  .querySelector("#keyboard")
+  .addEventListener("click", (evt) => guessedWord(evt));
+
+function guessedWord(evt) {
+  let letter = evt.target.textContent;
+  // console.log(letter);
+  if (selectedWord.includes(letter)) {
+    for (let i = 0; i < selectedWord.length; i++) {
+      if (selectedWord[i] === letter) {
+        inputs[i].value = letter;
+      }
+    }
+  } else {
+    livesUsed++;
+    hangmanImages.src = `hangmanImages/hangman-${livesUsed}.svg`;
+    maxLives.innerHTML = `LIVES: ${livesUsed}/${totalLives}`;
+  }
+  if (livesUsed === totalLives) {
+    alert(`GameOver! The word was ${selectedWord} . Better luck next time!`);
+  }
+}
+
+// console.log(hangmanImages);
