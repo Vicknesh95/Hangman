@@ -121,11 +121,42 @@ function guessedWord(evt) {
   } else {
     livesUsed++;
     hangmanImages.src = `hangmanImages/hangman-${livesUsed}.svg`;
-    maxLives.innerHTML = `LIVES: ${livesUsed}/${totalLives}`;
+    maxLives.innerHTML = `LIVES USED: ${livesUsed}/${totalLives}`;
+  } 
+  let guessedWord = "";
+  for (let i = 0; i <inputs.length; i++) {
+    guessedWord+= inputs[i].value;
   }
+
   if (livesUsed === totalLives) {
-    alert(`GameOver! The word was ${selectedWord} . Better luck next time!`);
+    setTimeout(() => {
+      alert(`GameOver! The word was ${selectedWord} . Better luck next time!`);
+      resetBoard();
+    }, 1000);
+  } else if (selectedWord === guessedWord) {
+    setTimeout(() =>{
+      alert(`Winner Winner Chicken Dinner, lets see if you can save the Hangman again!`);
+      resetBoard();
+    },1000);
   }
+
+  
 }
 
 // console.log(hangmanImages);
+
+function resetBoard() {
+  hangmanImages.src = "hangmanImages/hangman-0.svg";
+
+  maxLives.innerHTML = `LIVES USED: 0/${totalLives}`;
+
+  randomWordObject = wordsList[Math.floor(Math.random() * wordsList.length)];
+
+  selectedWord = randomWordObject.word.toUpperCase();
+
+  hint.innerHTML = `HINT: ${randomWordObject.hint}`;
+
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = "";
+  }
+}
