@@ -82,28 +82,110 @@ const wordsList = [
   },
 ];
 
-let inputs = document.querySelectorAll("input");
+const wordsList2 = [
+  {
+    word: "Backpack",
+    hint: "A bag carried on the back, often used by hikers and students",
+  },
+  {
+    word: "Champion",
+    hint: "A person who has defeated all rivals in a competition.",
+  },
+  {
+    word: "Elephant",
+    hint: "A large herbivorous mammal with a trunk.",
+  },
+  {
+    word: "Jealousy",
+    hint: "The state of being envious of someone else's achievements or advantages.",
+  },
+  {
+    word: "Passport",
+    hint: "An official document issued by a government, certifying the holder's identity and citizenship.",
+  },
+  {
+    word: "Sanctity",
+    hint: "The state or quality of being holy, sacred, or saintly.",
+  },
+  {
+    word: "Wildlife",
+    hint: "Animals that live and grow in natural conditions.",
+  },
+  {
+    word: "Treasure",
+    hint: "A quantity of precious metals, gems, or other valuable objects.",
+  },
+  {
+    word: "Terminal",
+    hint: "The end of a railroad, sections of an airport or other transport route, or a station at such a point.",
+  },
+  {
+    word: "Vacation",
+    hint: "An extended period of leisure and recreation, especially one spent away from home or traveling.",
+  },
+  {
+    word: "Umbrella",
+    hint: "A device for protection against the rain or sun",
+  },
+  {
+    word: "Patience",
+    hint: "The capacity to accept or tolerate delay, trouble, or suffering without getting angry or upset.",
+  },
+  {
+    word: "Outreach",
+    hint: "The act of extending services or assistance on the community",
+  },
+  {
+    word: "Alliance",
+    hint: "A union or association formed for mutual benefit.",
+  },
+  {
+    word: "Backbone",
+    hint: "The series of vertebrae extending from the skull to the pelvis; also means strength of character.",
+  },
+  {
+    word: "Juvenile",
+    hint: "Pertaining to young people or youth.",
+  },
+  {
+    word: "Decorate",
+    hint: "To add beauty to something, often with ornamental items.",
+  },
+  {
+    word: "Clothing",
+    hint: "Items or apparel worn to cover the body",
+  },
+  {
+    word: "Disaster",
+    hint: "A sudden event, such as an accident or natural catastrophe, that causes great damage or loss of life.",
+  },
+  {
+    word: "Diplomat",
+    hint: "An official representing a country abroad.",
+  },
+];
+
+//Variables to store elements
+const inputs = document.querySelectorAll("input");
 const keyboard = document.querySelectorAll(".key");
 let hangmanImages = document.querySelector(".hangmanImg");
 const maxLives = document.querySelector(".Guesses");
+let hint = document.querySelector(".hint");
+let inputBox1 = document.createElement("input");
+let inputBox2 = document.createElement("input");
 
+//Variables
 const totalLives = 6;
 let livesUsed = 0;
-// let inputIndex = 0;
+let chosenWord;
+
+let randomWordObject2 =
+  wordsList2[Math.floor(Math.random() * wordsList2.length)];
+let selectedWord2 = randomWordObject2.word.toUpperCase();
 let randomWordObject = wordsList[Math.floor(Math.random() * wordsList.length)];
 let selectedWord = randomWordObject.word.toUpperCase();
-let hint = document.querySelector(".hint");
-hint.innerHTML = `HINT: ${randomWordObject.hint}`;
 
-console.log(randomWordObject);
-console.log(selectedWord);
-
-// function keyboardInput(evt) {
-//   if (inputIndex < inputs.length) {
-//     inputs[inputIndex].value = evt.target.textContent;
-//     inputIndex++;
-//   }
-// }
+resetBoard();
 
 document
   .querySelector("#keyboard")
@@ -111,10 +193,10 @@ document
 
 function guessedWord(evt) {
   let letter = evt.target.textContent;
-  // console.log(letter);
-  if (selectedWord.includes(letter)) {
-    for (let i = 0; i < selectedWord.length; i++) {
-      if (selectedWord[i] === letter) {
+  let chosenWord = selectedWord || selectedWord2;
+  if (chosenWord.includes(letter)) {
+    for (let i = 0; i < chosenWord.length; i++) {
+      if (chosenWord[i] === letter) {
         inputs[i].value = letter;
       }
     }
@@ -122,28 +204,74 @@ function guessedWord(evt) {
     livesUsed++;
     hangmanImages.src = `hangmanImages/hangman-${livesUsed}.svg`;
     maxLives.innerHTML = `LIVES USED: ${livesUsed}/${totalLives}`;
-  } 
+  }
   let guessedWord = "";
-  for (let i = 0; i <inputs.length; i++) {
-    guessedWord+= inputs[i].value;
+  for (let i = 0; i < inputs.length; i++) {
+    guessedWord += inputs[i].value;
   }
 
   if (livesUsed === totalLives) {
     setTimeout(() => {
-      alert(`GameOver! The word was ${selectedWord} . Better luck next time!`);
+      alert(`GameOver! The word was ${chosenWord} . Better luck next time!`);
       resetBoard();
     }, 1000);
-  } else if (selectedWord === guessedWord) {
-    setTimeout(() =>{
-      alert(`Winner Winner Chicken Dinner, lets see if you can save the Hangman again!`);
-      resetBoard();
-    },1000);
+  } else if (chosenWord === guessedWord) {
+    setTimeout(() => {
+      alert(
+        `Winner Winner Chicken Dinner, lets see if you can save the Hangman again!`
+      );
+      goToLevelTwo();
+    }, 1000);
   }
-
-  
 }
 
-// console.log(hangmanImages);
+function goToLevelTwo() {
+  inputs = document.querySelectorAll("input");
+
+  hangmanImages.src = "hangmanImages/hangman-0.svg";
+
+  maxLives.innerHTML = `LIVES USED: 0/${totalLives}`;
+
+  randomWordObject2 = wordsList2[Math.floor(Math.random() * wordsList2.length)];
+
+  selectedWord2 = randomWordObject2.word.toUpperCase();
+  console.log(selectedWord2);
+
+  hint.innerHTML = `HINT: ${randomWordObject2.hint}`;
+
+  console.log(randomWordObject2.hint);
+
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = "";
+  }
+  let inputBox1 = document.createElement("input");
+  inputBox1.disabled = true;
+  inputBox1.maxLength = 1;
+  inputBox1.classList.add("input-box");
+  document.querySelector(".input").appendChild(inputBox1);
+
+  let inputBox2 = document.createElement("input");
+  inputBox2.disabled = true;
+  inputBox2.maxLength = 1;
+  inputBox2.classList.add("input-box");
+  document.querySelector(".input").appendChild(inputBox2);
+
+  selectedWord = undefined;
+
+  if (livesUsed === totalLives) {
+    setTimeout(() => {
+      alert(`GameOver! The word was ${chosenWord} . Try again!`);
+      resetBoard();
+    }, 1000);
+  } else if (chosenWord === guessedWord) {
+    setTimeout(() => {
+      alert(
+        `Winner Winner Chicken Dinner, lets see if you can save the Hangman again!`
+      );
+      resetBoard();
+    }, 1000);
+  }
+}
 
 function resetBoard() {
   hangmanImages.src = "hangmanImages/hangman-0.svg";
@@ -158,5 +286,10 @@ function resetBoard() {
 
   for (let i = 0; i < inputs.length; i++) {
     inputs[i].value = "";
+  }
+  const allInputs = document.querySelectorAll("input");
+  if (inputs.length > 6) {
+    inputs[6].remove();
+    inputs[7].remove();
   }
 }
