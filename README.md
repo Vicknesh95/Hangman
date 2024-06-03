@@ -12,9 +12,7 @@ Levels:
 
 Level 1: Guess a 6-letter word.
 Level 2: Guess an 8-letter word. This level is unlocked only after successfully completing Level 1.
-Hints:
-
-Each word comes with a hint to help you guess the correct letters.
+Hints: Each word comes with a hint to help you guess the correct letters.
 Gameplay:
 
 Start by playing Level 1 (6-letter word).
@@ -26,6 +24,13 @@ Lives and Hangman Drawing:
 You start with 6 lives.
 Each incorrect guess results in losing a life and drawing a part of the hangman.
 The hangman is fully drawn (game over) after 6 incorrect guesses.
+
+LEVEL 1
+![Gamepage level 1](https://github.com/Vicknesh95/Hangman/assets/163378473/b3ebbd78-7775-40b8-b109-8d4f6b18c585)
+
+LEVEL 2
+![Gamepage level 2](https://github.com/Vicknesh95/Hangman/assets/163378473/6ba9f6d2-c9e6-40ac-b946-2314136f5d47)
+
 
 Technologies Used: Vanilla Javascript , HTML, CSS
 
