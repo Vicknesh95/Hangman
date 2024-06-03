@@ -166,7 +166,7 @@ const wordsList2 = [
 ];
 
 //Variables to store elements
-const inputs = document.querySelectorAll("input");
+let inputs = document.querySelectorAll("input");
 const keyboard = document.querySelectorAll(".key");
 let hangmanImages = document.querySelector(".hangmanImg");
 const maxLives = document.querySelector(".Guesses");
@@ -178,6 +178,7 @@ let inputBox2 = document.createElement("input");
 const totalLives = 6;
 let livesUsed = 0;
 let chosenWord;
+let atLevel2 = false;
 
 let randomWordObject2 =
   wordsList2[Math.floor(Math.random() * wordsList2.length)];
@@ -192,6 +193,7 @@ document
   .addEventListener("click", (evt) => guessedWord(evt));
 
 function guessedWord(evt) {
+  inputs = document.querySelectorAll("input");
   let letter = evt.target.textContent;
   let chosenWord = selectedWord || selectedWord2;
   if (chosenWord.includes(letter)) {
@@ -215,20 +217,29 @@ function guessedWord(evt) {
       alert(`GameOver! The word was ${chosenWord} . Better luck next time!`);
       resetBoard();
     }, 1000);
-  } else if (chosenWord === guessedWord) {
+  } else if (chosenWord === guessedWord && !atLevel2) {
     setTimeout(() => {
       alert(
         `Winner Winner Chicken Dinner, lets see if you can save the Hangman again!`
       );
       goToLevelTwo();
     }, 1000);
+  } else if (chosenWord === guessedWord && atLevel2) {
+    setTimeout(() => {
+      alert(
+        `Winner Winner Chicken Dinner, lets see if you can save the Hangman again!`
+      );
+      resetBoard();
+    }, 1000);
   }
 }
 
 function goToLevelTwo() {
+  atLevel2 = true;
+
   inputs = document.querySelectorAll("input");
 
-  hangmanImages.src = "hangmanImages/hangman-0.svg";
+  hangmanImages.src = `hangmanImages/hangman-0.svg`;
 
   maxLives.innerHTML = `LIVES USED: 0/${totalLives}`;
 
@@ -274,7 +285,7 @@ function goToLevelTwo() {
 }
 
 function resetBoard() {
-  hangmanImages.src = "hangmanImages/hangman-0.svg";
+  hangmanImages.src = `hangmanImages/hangman-0.svg`;
 
   maxLives.innerHTML = `LIVES USED: 0/${totalLives}`;
 
@@ -287,7 +298,7 @@ function resetBoard() {
   for (let i = 0; i < inputs.length; i++) {
     inputs[i].value = "";
   }
-  const allInputs = document.querySelectorAll("input");
+  inputs = document.querySelectorAll("input");
   if (inputs.length > 6) {
     inputs[6].remove();
     inputs[7].remove();
